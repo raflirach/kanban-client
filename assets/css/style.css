@@ -41,6 +41,23 @@ nav {
   overflow-y: auto;
 }
 
+.card-content .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.card-content .edit {
+  display: none;
+  position: absolute;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.card-content:hover .edit {
+  display: block;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -58,5 +75,55 @@ nav {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.bg-login {
+  height: 100vh;
+  background-attachment: static;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, rgba(0, 0, 0, 0.2)), color-stop(20%, rgba(0, 0, 0, 0.2)));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2) 20%);
+}
+
+.login-card {
+  height: 300px;
+  width: 420px;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.login-card input {
+  background: none;
+  border: 0 solid;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+  outline: none;
+  margin: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2em;
+}
+
+.login-card button {
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 800;
+  font-size: 1em;
+}
+
+.login-title {
+  font-weight: 1000;
+  font-size: 1.8em;
+  margin-bottom: 5px;
 }
 /*# sourceMappingURL=style.css.map */
