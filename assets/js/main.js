@@ -3,6 +3,7 @@ const app = new Vue({
   data: {
     baseUrl: 'http://localhost:3000',
     page: 'login',
+    isRegister: false,
     categories: ['backlog','todo','doing','done'],
     tasks: [],
     user: {
@@ -27,6 +28,15 @@ const app = new Vue({
         this.setPage("login")
       }
     },
+    changeRegister(status){
+      this.user.password = ''
+      this.user.email = ''
+      this.isRegister = status
+    },
+    onSignIn(googleUser) {
+      const profile = googleUser.getBasicProfile();
+      console.log(profile);
+    },
     login(){
       const { email,password } = this.user
 
@@ -39,6 +49,8 @@ const app = new Vue({
         }
       })
       .then(response => {
+        this.user.password = ''
+        this.user.email = ''
         return response.data
       })
       .then(user => {
@@ -48,7 +60,49 @@ const app = new Vue({
         this.checkAuth()
       })
       .catch(error => {
-        console.log(error.response.data)
+        this.user.password = ''
+        this.user.email = ''
+        swal({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error"
+        });
+      })
+    },
+    register(){
+      const { email,password } = this.user
+
+      axios({
+        method: 'post',
+        url: `${this.baseUrl}/register`,
+        data: {
+          email,
+          password
+        }
+      })
+      .then(response => {
+        this.user.password = ''
+        this.user.email = ''
+        return response.data
+      })
+      .then(user => {
+        this.isRegister = false
+        this.checkAuth()
+        swal({
+          title: "Success!",
+          text: "Register successfull",
+          icon: "success"
+        });
+      })
+      .catch(error => {
+        this.user.password = ''
+        this.user.email = ''
+        console.log(error.response.data.message)
+        swal({
+          title: "Error!",
+          text: error.response.data.message[0],
+          icon: "error"
+        });
       })
     },
     logout(){
@@ -102,10 +156,40 @@ const app = new Vue({
       })
     },
     showFormEdit(id){
-      this.isEdit = id
+      axios({
+        method: 'get',
+        url: `${this.baseUrl}/tasks/${id}`,
+        headers: {
+          access_token : localStorage.access_token
+        }
+      })
+      .then(response => {
+        return response.data
+      })
+      .then(tasks => {
+        this.isEdit = id
+        this.title = tasks.title
+      })
+      .catch(error => {
+        this.showError(error.response.data.message)
+      })
     },
     editTodo(id){
       console.log(id);
+    },
+    confirmDelete(id){
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((will) => {
+        if (will) {
+          this.deleteTodo(id)
+        }
+      });
     },
     deleteTodo(id){
       axios({
@@ -118,17 +202,32 @@ const app = new Vue({
       .then(response => {
         return response.data
       })
-      .then(tasks => {
-        console.log(tasks);
+      .then(res => {
+        swal({
+          title: "Success!",
+          text: res.message,
+          icon: "success"
+        });
         this.getTasks()
       })
       .catch(error => {
-        console.log(error.response.data)
+        swal({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error"
+        });
       })
     },    
     cancel(){
       this.isEdit = ''
       this.isAdd = ''
+    },
+    showError(text){
+      swal({
+        title: "Error!",
+        text: text,
+        icon: "error"
+      });
     }
   },
   computed: {
@@ -136,5 +235,12 @@ const app = new Vue({
   },
   created(){
     this.checkAuth()
+  },
+  mounted() {
+    window.onLoadCallback = function(){
+      gapi.auth2.init({
+          client_id: '904131214369-65d67s90qk1bdcejksng18v2km84dqma.apps.googleusercontent.com'
+      });
+    }
   }
 })
