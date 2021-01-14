@@ -36,6 +36,11 @@ nav {
   margin-bottom: 5px;
 }
 
+.card-body-0 {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
 .card-content {
   padding: 0 5px;
   max-height: 70vh;
