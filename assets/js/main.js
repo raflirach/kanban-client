@@ -62,11 +62,7 @@ const app = new Vue({
       .catch(error => {
         this.user.password = ''
         this.user.email = ''
-        swal({
-          title: "Error!",
-          text: error.response.data.message,
-          icon: "error"
-        });
+        this.showError(error.response.data.message)
       })
     },
     register(){
@@ -88,7 +84,7 @@ const app = new Vue({
       .then(user => {
         this.isRegister = false
         this.checkAuth()
-        swal({
+        Swal.fire({
           title: "Success!",
           text: "Register successfull",
           icon: "success"
@@ -97,12 +93,7 @@ const app = new Vue({
       .catch(error => {
         this.user.password = ''
         this.user.email = ''
-        console.log(error.response.data.message)
-        swal({
-          title: "Error!",
-          text: error.response.data.message[0],
-          icon: "error"
-        });
+        this.showError(error.response.data.message[0])
       })
     },
     logout(){
@@ -174,22 +165,91 @@ const app = new Vue({
         this.showError(error.response.data.message)
       })
     },
-    editTodo(id){
-      console.log(id);
+    editTodo(id, category){
+      const title = this.title
+      axios({
+        method: 'put',
+        url: `${this.baseUrl}/tasks/${id}`,
+        headers: {
+          access_token : localStorage.access_token
+        },
+        data: {
+          title,
+          category
+        }
+      })
+      .then(response => {
+        return response.data
+      })
+      .then(tasks => {
+        this.isEdit = ''
+        this.getTasks()
+      })
+      .catch(error => {
+        this.showError(error.response.data.message[0])
+      })
+    },
+    showMoveForm(id, category){
+      const categories = this.categories.filter(e => e!=category)
+      const select = categories.reduce(function(map, value) {
+        map[value] = value;
+        return map;
+      }, {});
+      Swal.fire({
+        title: 'Move to :',
+        input: 'select',
+        inputOptions: select,
+        inputPlaceholder: 'Select category',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (value) {
+              resolve()
+            } else {
+              resolve('You need to select')
+            }
+          })
+        }
+      })
+      .then(res => {
+        this.updateCategory(id, res.value)
+      })
+    },
+    updateCategory(id, category){
+      axios({
+        method: 'patch',
+        url: `${this.baseUrl}/tasks/${id}`,
+        headers: {
+          access_token : localStorage.access_token
+        },
+        data: {
+          category
+        }
+      })
+      .then(response => {
+        return response.data
+      })
+      .then(tasks => {
+        this.getTasks()
+      })
+      .catch(error => {
+        this.showError(error.response.data.message)
+      })
     },
     confirmDelete(id){
-      swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((will) => {
-        if (will) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
           this.deleteTodo(id)
         }
-      });
+      })
     },
     deleteTodo(id){
       axios({
@@ -203,7 +263,7 @@ const app = new Vue({
         return response.data
       })
       .then(res => {
-        swal({
+        Swal.fire({
           title: "Success!",
           text: res.message,
           icon: "success"
@@ -211,11 +271,8 @@ const app = new Vue({
         this.getTasks()
       })
       .catch(error => {
-        swal({
-          title: "Error!",
-          text: error.response.data.message,
-          icon: "error"
-        });
+        console.log(error.response.data.message);
+        this.showError(error.response.data.message)
       })
     },    
     cancel(){
@@ -223,7 +280,7 @@ const app = new Vue({
       this.isAdd = ''
     },
     showError(text){
-      swal({
+      Swal.fire({
         title: "Error!",
         text: text,
         icon: "error"

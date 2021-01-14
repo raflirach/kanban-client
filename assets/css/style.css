@@ -33,6 +33,7 @@ nav {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .card-content {
@@ -52,6 +53,13 @@ nav {
   position: absolute;
   -ms-flex-item-align: end;
       align-self: flex-end;
+}
+
+.card-content small {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  font-size: 0.7em;
+  color: gray;
 }
 
 .card-content:hover .edit {
