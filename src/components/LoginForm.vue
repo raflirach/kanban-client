@@ -15,7 +15,7 @@
       </div>
     </form>
     <div class="d-flex justify-content-center">
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
     </div>
   </div>
 </template>
@@ -23,14 +23,25 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import GoogleLogin from 'vue-google-login';
 
 export default {
   name: "LoginForm",
-  props: ['isRegister','changeRegister','checkAuth'],
+  props: ['isRegister','changeRegister','checkAuth','onFailure'],
   data(){
     return {
       email: '',
-      password: ''
+      password: '',
+      // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
+      params: {
+          client_id: "904131214369-65d67s90qk1bdcejksng18v2km84dqma.apps.googleusercontent.com"
+      },
+      // only needed if you want to render the button with the google ui
+      renderParams: {
+          width: 250,
+          height: 50,
+          longtitle: true
+      }
     }
   },
   methods: {
@@ -39,6 +50,13 @@ export default {
       this.email = ''
       this.password = ''
     },
+    onSuccess(googleUser) {
+      const id_token = googleUser.Bc.id_token
+      this.$emit('onSuccess', id_token)
+    }
+  },
+  components: {
+    GoogleLogin
   }
 }
 </script>

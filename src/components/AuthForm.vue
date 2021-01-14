@@ -7,6 +7,7 @@
       :changeRegister="changeRegister"
       :checkAuth="checkAuth"
       @login="login"
+      @onSuccess="onSuccess"
       ></login-form>
     <register-form
       v-else
@@ -39,6 +40,9 @@
       register(email, password){
         this.$emit('register', email, password)
       },
+      onSuccess(id_token) {
+        this.$emit('onSuccess', id_token)
+      }
     },
     components: { LoginForm, RegisterForm },
   }

@@ -4,6 +4,7 @@
       v-if="page === 'login'"
       @login="login"
       @register="register"
+      @onSuccess="onSuccess"
       :checkAuth="checkAuth"
       ></auth-form>
     <main-page 
@@ -91,6 +92,29 @@ export default {
         Swal.fire({
           title: "Error!",
           text: error.response.data.message[0],
+          icon: "error"
+        });
+      })
+    },
+    onSuccess(id_token) {
+      axios({
+        method: 'post',
+        url: `${this.baseUrl}/loginGoogle`,
+        data: {
+          id_token
+        }
+      })
+      .then(res => {
+        const user = res.data
+        localStorage.access_token = user.access_token
+        localStorage.username = user.email
+        this.username = user.email
+        this.checkAuth()
+      })
+      .catch(error => {
+        Swal.fire({
+          title: "Error!",
+          text: `internal server error`,
           icon: "error"
         });
       })
@@ -189,9 +213,6 @@ export default {
         headers: {
           access_token : localStorage.access_token
         }
-      })
-      .then(response => {
-        return response.data
       })
       .then(res => {
         Swal.fire({
