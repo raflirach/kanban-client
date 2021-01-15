@@ -15,7 +15,7 @@
         <a class="btn mx-2" @click="changeRegister(true)">Register</a>
       </div>
     </form>
-    <GoogleLogin :params="params" :renderParams="renderParams"  :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
+    <GoogleLogin class="btn btn-primary btn-google" :params="params" :onSuccess="onSuccess" :onFailure="onFailure">login with google</GoogleLogin>
   </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="card-content">
-    <div class="card card-container p-1 mb-2" v-if="task.category == category" :id="task.id" draggable="true" @dragstart="dragStart" @dragend="dragEnd">
+    <div class="card card-container p-1 mb-2" v-if="task.CategoryId == category.id" :id="task.id" draggable="true" @dragstart="dragStart" @dragend="dragEnd">
       <div>
         <div v-if="isEdit == task.id">
-          <form @submit.prevent="editTodo(task.id, category)">
+          <form @submit.prevent="editTodo(task.id, category.id)">
             <textarea v-model="title" rows="3" class="form-control"></textarea>
             <button type="submit" class="btn btn-success my-btn">save</button>
             <a class="btn btn-danger my-btn" @click="cancel">cancel</a>
@@ -14,7 +14,7 @@
       <div class="edit">
         <i class="fas fa-pen" @click="showFormEdit(task.id)"></i>
         <i class="fas fa-trash-alt" @click="confirmDelete(task.id)"></i>
-        <i class="fas fa-arrows-alt" @click="showMoveForm(task.id, category)"></i>
+        <i class="fas fa-arrows-alt" @click="showMoveForm(task.id, category.id)"></i>
       </div>
       <small>by: {{task.User.email}} </small>
     </div>
@@ -59,9 +59,10 @@ export default {
       })
     },
     showMoveForm(id, category){
-      const categories = this.categories.filter(e => e!=category)
+      const categories = this.categories.filter(e => e.id!=category)
+      console.log(categories);
       const select = categories.reduce(function(map, value) {
-        map[value] = value;
+        map[value.id] = value.name;
         return map;
       }, {});
       Swal.fire({

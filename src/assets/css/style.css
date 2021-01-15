@@ -20,6 +20,7 @@ nav {
 }
 
 .logo {
+  z-index: 0;
   position: absolute;
   width: 100%;
   color: rgba(255, 255, 255, 0.6);
@@ -83,6 +84,7 @@ nav {
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 0px;
 }
 
 /* Track */
@@ -185,9 +187,26 @@ nav {
 
 .fa-phoenix-framework {
   font-size: 2em;
+  z-index: 1;
 }
 
 .t-25 {
   font-size: 6em;
+}
+
+.main-container .row {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  height: 95vh !important;
+}
+
+.main-container .row .col-3 {
+  display: inline-block;
+}
+
+.btn-add {
+  border: 1px solid white;
+  cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */

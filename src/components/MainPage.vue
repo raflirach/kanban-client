@@ -6,11 +6,15 @@
       ></nav-bar>
     <main-task 
       :tasks="tasks"
+      :categories="categories"
       @getTasks="getTasks"
       @addTodo="addTodo"
       @editTodo="editTodo"
       @updateCategory="updateCategory"
       @deleteTodo="deleteTodo"
+      @addCategory="addCategory"
+      @deleteCategory="deleteCategory"
+      @editCategory="editCategory"
     ></main-task>
   </section>
 </template>
@@ -21,7 +25,7 @@ import NavBar from './NavBar.vue'
 
 export default {
   name: "MainPage",
-  props: ['checkAuth','tasks'],
+  props: ['checkAuth','tasks','categories'],
   methods: {
     getTasks(){
       this.$emit('getTasks')
@@ -37,6 +41,15 @@ export default {
     }, 
     deleteTodo(id){
       this.$emit('deleteTodo', id)
+    },
+    addCategory(name){
+      this.$emit('addCategory',name)
+    },
+    deleteCategory(id){
+      this.$emit('deleteCategory', id)
+    },
+    editCategory(id, name){
+      this.$emit('editCategory', id, name)
     }
   },
   components: { NavBar, MainTask },

@@ -14,7 +14,11 @@
       @editTodo="editTodo"
       @updateCategory="updateCategory"
       @deleteTodo="deleteTodo"
+      @addCategory="addCategory"
+      @deleteCategory="deleteCategory"
+      @editCategory="editCategory"
       :tasks="tasks"
+      :categories="categories"
       :checkAuth="checkAuth"
       ></main-page>
   </div>
@@ -32,7 +36,8 @@ export default {
     return {
       baseUrl: 'https://r-kanban.herokuapp.com',
       page : '',
-      tasks: []
+      tasks: [],
+      categories: []
     }
   },
   methods: {
@@ -43,6 +48,7 @@ export default {
       if(localStorage.access_token){
         this.setPage("main")
         this.getTasks()
+        this.getCategories()
       }else{
         this.setPage("login")
       }
@@ -138,7 +144,7 @@ export default {
         });
       })
     },
-    addTodo(category, title){
+    addTodo(CategoryId, title){
       axios({
         method: 'post',
         url: `${this.baseUrl}/tasks`,
@@ -147,7 +153,7 @@ export default {
         },
         data : {
           title,
-          category
+          CategoryId
         }
       })
       .then(tasks => {
@@ -161,7 +167,7 @@ export default {
         });
       })
     },
-    editTodo(id, category, title){
+    editTodo(id, CategoryId, title){
       axios({
         method: 'put',
         url: `${this.baseUrl}/tasks/${id}`,
@@ -170,7 +176,7 @@ export default {
         },
         data: {
           title,
-          category
+          CategoryId
         }
       })
       .then(tasks => {
@@ -184,7 +190,7 @@ export default {
         });
       })
     },
-    updateCategory(id, category){
+    updateCategory(id, CategoryId){
       axios({
         method: 'patch',
         url: `${this.baseUrl}/tasks/${id}`,
@@ -192,7 +198,7 @@ export default {
           access_token : localStorage.access_token
         },
         data: {
-          category
+          CategoryId
         }
       })
       .then(response => {
@@ -230,6 +236,93 @@ export default {
         });
       })
     },  
+    getCategories(){
+      axios({
+        method: 'get',
+        url: `${this.baseUrl}/categories`,
+        headers: {
+          access_token : localStorage.access_token
+        }
+      })
+      .then(res => {
+        this.categories = res.data
+      })
+      .catch(error => {
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error"
+        });
+      })
+    },
+    addCategory(name){
+      axios({
+        method: 'post',
+        url: `${this.baseUrl}/categories`,
+        headers: {
+          access_token : localStorage.access_token
+        },
+        data: {
+          name
+        }
+      })
+      .then(res => {
+        this.getCategories()
+      })
+      .catch(error => {
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error"
+        });
+      })
+    },
+    deleteCategory(id){
+      axios({
+        method: 'delete',
+        url: `${this.baseUrl}/categories/${id}`,
+        headers: {
+          access_token : localStorage.access_token
+        }
+      })
+      .then(res => {
+        Swal.fire({
+          title: "Success!",
+          text: res.data.message,
+          icon: "success"
+        });
+        this.getCategories()
+      })
+      .catch(error => {
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error"
+        });
+      })
+    },
+    editCategory(id, name){
+      axios({
+        method: 'put',
+        url: `${this.baseUrl}/categories/${id}`,
+        headers: {
+          access_token : localStorage.access_token
+        },
+        data:{
+          name
+        }
+      })
+      .then(res => {
+        this.getCategories()
+      })
+      .catch(error => {
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error"
+        });
+      })
+    }
   },
   created(){
     this.checkAuth()

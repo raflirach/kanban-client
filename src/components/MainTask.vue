@@ -1,7 +1,7 @@
 <template>
   <!-- task -->
-  <div class="mx-2">
-    <div class="row">
+  <div class="mx-2 main-container">
+    <div class="row ">
       <category-card 
         v-for="(category, i) in categories" 
         :key="i"
@@ -13,8 +13,24 @@
         @editTodo="editTodo"
         @updateCategory="updateCategory"
         @deleteTodo="deleteTodo"
+        @deleteCategory="deleteCategory"
+        @editCategory="editCategory"
       >
       </category-card>
+      <div class="col-3">
+        <div class="card category-container">
+          <div class="card-header">
+            <div>
+              <form @submit.prevent="addCategory">
+                <input type="text" class="category-container" v-model="name" id="myAdd">
+              </form>
+            </div>
+            <div>
+              <i class="fas fa-plus" @click="addCategory"></i> 
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,10 +40,10 @@ import CategoryCard from './CategoryCard.vue'
 
 export default {
   name: "MainTask",
-  props: ['tasks'],
+  props: ['tasks','categories'],
   data(){
     return{
-      categories: ['backlog','todo','doing','done'],
+      name: ''
     }
   },
   methods: {
@@ -45,6 +61,17 @@ export default {
     }, 
     deleteTodo(id){
       this.$emit('deleteTodo', id)
+    },
+    addCategory(){
+      this.$emit('addCategory',this.name)
+      this.name = ''
+    },
+    deleteCategory(id){
+      this.$emit('deleteCategory', id)
+      this.name = ''
+    },
+    editCategory(id, name){
+      this.$emit('editCategory', id, name)
     }
   },
   components: { CategoryCard },
