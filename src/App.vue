@@ -30,7 +30,7 @@ export default {
   name: "App",
   data(){
     return {
-      baseUrl: 'http://localhost:3000',
+      baseUrl: 'https://r-kanban.herokuapp.com',
       page : '',
       tasks: []
     }

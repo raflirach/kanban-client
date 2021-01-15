@@ -30,7 +30,7 @@ export default {
   props: ["category",'task','categories'],
   data(){
     return{
-      baseUrl: "http://localhost:3000",
+      baseUrl: "https://r-kanban.herokuapp.com",
       title: '',
       isEdit: '',
     }
@@ -44,10 +44,8 @@ export default {
           access_token : localStorage.access_token
         }
       })
-      .then(response => {
-        return response.data
-      })
-      .then(tasks => {
+      .then(res => {
+        const tasks = res.data
         this.isEdit = id
         this.title = tasks.title
       })
