@@ -5,8 +5,8 @@ body {
   background-size: cover;
   padding: 0;
   margin: 0;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(100%, rgba(0, 0, 0, 0.05)), color-stop(0%, rgba(0, 0, 0, 0))), url("https://1.bp.blogspot.com/-steIe4j4sZY/WWKzZMlWCRI/AAAAAAAAAls/Mnt2Cbq1__sx4VLT8CmBEEGpfrxOUSudACLcBGAs/w1200-h630-p-k-no-nu/1455018444-a5aYU-biru-membara-pantai-large.jpg");
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 100%, rgba(0, 0, 0, 0) 0%), url("https://1.bp.blogspot.com/-steIe4j4sZY/WWKzZMlWCRI/AAAAAAAAAls/Mnt2Cbq1__sx4VLT8CmBEEGpfrxOUSudACLcBGAs/w1200-h630-p-k-no-nu/1455018444-a5aYU-biru-membara-pantai-large.jpg");
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(100%, rgba(0, 0, 0, 0.05)), color-stop(0%, rgba(0, 0, 0, 0))), url("https://data.whicdn.com/images/340869740/original.gif");
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 100%, rgba(0, 0, 0, 0) 0%), url("https://data.whicdn.com/images/340869740/original.gif");
   height: 100vh;
   overflow: hidden;
 }
@@ -20,6 +20,8 @@ nav {
 }
 
 .logo {
+  position: absolute;
+  width: 100%;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 1000;
   font-size: 1.3em;
@@ -34,6 +36,9 @@ nav {
       -ms-flex-pack: justify;
           justify-content: space-between;
   margin-bottom: 5px;
+  font-weight: 1000;
+  font-size: 1em;
+  font-style: italic;
 }
 
 .card-body-0 {
@@ -64,7 +69,12 @@ nav {
   -ms-flex-item-align: end;
       align-self: flex-end;
   font-size: 0.7em;
-  color: gray;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card-content:hover {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .card-content:hover .edit {
@@ -100,8 +110,12 @@ nav {
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2) 20%);
 }
 
+.btn-google {
+  width: 50% !important;
+}
+
 .login-card {
-  height: 300px;
+  height: 400px;
   width: 420px;
   background-color: rgba(0, 0, 0, 0.2);
   display: -webkit-box;
@@ -146,5 +160,34 @@ nav {
   font-weight: 1000;
   font-size: 1.8em;
   margin-bottom: 5px;
+}
+
+.category-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.card-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.my-btn {
+  margin-top: 5px;
+  width: 60px !important;
+  font-size: 0.7em;
+  font-weight: 800;
+}
+
+.fa-phoenix-framework {
+  font-size: 2em;
+}
+
+.t-25 {
+  font-size: 6em;
 }
 /*# sourceMappingURL=style.css.map */

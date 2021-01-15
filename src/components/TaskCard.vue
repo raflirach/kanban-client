@@ -1,12 +1,12 @@
 <template>
-  <div class="card-content" >
-    <div class="card bg-white p-1 mb-2" v-if="task.category == category" :id="task.id">
+  <div class="card-content">
+    <div class="card card-container p-1 mb-2" v-if="task.category == category" :id="task.id" draggable="true" @dragstart="dragStart" @dragend="dragEnd">
       <div>
         <div v-if="isEdit == task.id">
           <form @submit.prevent="editTodo(task.id, category)">
             <textarea v-model="title" rows="3" class="form-control"></textarea>
-            <button type="submit" class="btn btn-success">save</button>
-            <a class="btn btn-danger" @click="cancel">cancel</a>
+            <button type="submit" class="btn btn-success my-btn">save</button>
+            <a class="btn btn-danger my-btn" @click="cancel">cancel</a>
           </form>
         </div>
         <div v-text="task.title" v-else @dblclick="showFormEdit(task.id)"></div>
@@ -30,32 +30,14 @@ export default {
   props: ["category",'task','categories'],
   data(){
     return{
-      baseUrl: "https://r-kanban.herokuapp.com",
       title: '',
       isEdit: '',
     }
   },
   methods: {
     showFormEdit(id){
-      axios({
-        method: 'get',
-        url: `${this.baseUrl}/tasks/${id}`,
-        headers: {
-          access_token : localStorage.access_token
-        }
-      })
-      .then(res => {
-        const tasks = res.data
-        this.isEdit = id
-        this.title = tasks.title
-      })
-      .catch(error => {
-        Swal.fire({
-          title: "Error!",
-          text: error.response.data.message,
-          icon: "error"
-        });
-      })
+      this.isEdit = id
+      this.title = this.task.title
     },
     editTodo(id, category){
       this.isEdit = ''
@@ -104,6 +86,20 @@ export default {
     },
     cancel(){
       this.isEdit = ''
+    },
+    dragStart(e){
+      const target = e.target
+
+      e.dataTransfer.setData('card_id', target.id)
+  
+      setTimeout(()=>{
+        target.style.display = "none"
+      },0)
+    },
+    dragEnd(e) {
+      const target = e.target
+      const card = document.getElementById(target.id)
+      target.style.display = "flex"
     },
   }
 }

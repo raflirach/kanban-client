@@ -1,6 +1,7 @@
 <template>
   <!-- login form -->
   <div class="card login-card">
+    <div><i class="fab fa-phoenix-framework t-25"></i></div>
     <div class="login-title">Login</div>
     <form @submit.prevent="login">
       <div>
@@ -14,9 +15,7 @@
         <a class="btn mx-2" @click="changeRegister(true)">Register</a>
       </div>
     </form>
-    <div class="d-flex justify-content-center">
-      <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
-    </div>
+    <GoogleLogin :params="params" :renderParams="renderParams"  :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
   </div>
 </template>
 
@@ -38,9 +37,7 @@ export default {
       },
       // only needed if you want to render the button with the google ui
       renderParams: {
-          width: 250,
-          height: 50,
-          longtitle: true
+        
       }
     }
   },

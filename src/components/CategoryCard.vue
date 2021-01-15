@@ -1,6 +1,6 @@
 <template>
-  <div class="col-3">
-    <div class="card bg-light">
+  <div class="col-3" @dragover.prevent @drop="drop">
+    <div class="card category-container">
       <div class="card-header" >
         <div class="title" v-text="category"></div>
         <div><i class="fas fa-ellipsis-h"></i></div>
@@ -67,7 +67,11 @@ export default {
     }, 
     deleteTodo(id){
       this.$emit('deleteTodo', id)
-    }
+    },
+    drop(e) {
+      const card_id = e.dataTransfer.getData('card_id')
+      this.$emit('updateCategory', card_id, this.category)
+    },
   },
   computed: {
     taskByCategery(){

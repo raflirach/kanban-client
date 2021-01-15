@@ -179,7 +179,7 @@ export default {
       .catch(error => {
         Swal.fire({
           title: "Error!",
-          text: error.response.data.message[0],
+          text: error.response.data.message,
           icon: "error"
         });
       })

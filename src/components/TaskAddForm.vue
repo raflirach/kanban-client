@@ -1,11 +1,11 @@
 <template>
   <div class="card-content">
-    <div class="card bg-white p-1 mb-2">
+    <div class="card card-container p-1 mb-2">
       <div>
         <form @submit.prevent="addTodo(category)">
           <textarea v-model="titleAdd" rows="3" class="form-control"></textarea>
-          <button type="submit" class="btn btn-success">save</button>
-          <a class="btn btn-danger" @click="cancel">cancel</a>
+          <button type="submit" class="btn btn-success my-btn">save</button>
+          <a class="btn btn-danger my-btn" @click="cancel">cancel</a>
         </form>
       </div>
     </div>
